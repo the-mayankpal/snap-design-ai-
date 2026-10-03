@@ -1,0 +1,787 @@
+@import "tailwindcss";
+
+:root {
+  /* Surface */
+  --background: #ffffff;        /* white page canvas */
+  --surface: #ffffff;           /* raised surfaces: navbar, prompt box */
+  --foreground: #0d0b0c;        /* deep warm black */
+
+  /* Ink scale */
+  --ink-900: #060505;           /* display headings, submit button */
+  --ink-700: #0f0d0e;           /* solid buttons */
+  --ink-500: #35312f;           /* nav links */
+  --ink-300: #807c78;           /* placeholder / muted */
+
+  /* Lines */
+  --surface-muted: #f4f2ed;     /* resting rows, quiet fills on a white page */
+  --line: #e8e6e1;              /* hairline borders */
+
+  /* Brand — the one accent. Orange marks the brand (pen stroke, "Describe"
+     selection, links); it is never a large background fill. */
+  --accent: #ef7a43;            /* brand orange */
+  --accent-soft: #ec8a5b;       /* orange inside small two-tone icons */
+  --accent-tint: #f6b08c;       /* peach: highlights on dark illustration cards */
+
+  /* Drawn ink and paper — the hand-made layer (About, legal, OG image) */
+  --ink-sketch: #1c1616;        /* pen lines, arrows, cursors in illustrations */
+  --ink-night: #120c0a;         /* dark "How it works" cards */
+  --paper: #fbfaf7;             /* notebook paper */
+  --paper-rule: #ebe7de;        /* notebook ruling */
+  --paper-warm: #f6efe6;        /* warm card fill: invoices tile, Belief 03 */
+  --frame: #ebe9e2;             /* placeholder behind a design image while it loads */
+
+  /* Supporting — flat, bright, used in small doses on stickers, tabs, tape
+     and illustration details. Never as gradients, never behind body text
+     (except sun, which takes ink text). */
+  --sun: #f4c542;
+  --cobalt: #2e5bdb;
+  --leaf: #2fa56b;
+  --pink: #f2558c;
+  --rose: #e4587a;
+  --lilac: #9f87c3;
+  --sage: #528773;
+  --blue: #3b82f6;              /* selection handles and UI dots inside mockups */
+  --periwinkle: #7a97c9;
+
+  /* Pastels — tape, tags and bento tile backgrounds */
+  --mint: #cdebdc;
+  --butter: #f3e3a6;
+  --sky: #b9c7e8;
+  --tint-sage: #e4eedc;
+  --tint-rose: #f3e4e4;
+  --tint-sky: #dce6f3;
+
+  /* Auth pages — sampled from the reference design */
+  --auth-canvas: #e2e2e2;       /* page behind the card */
+  --auth-ink: #0a0a0a;          /* headings, labels */
+  --auth-muted: #9b9b9b;        /* body copy, helper text */
+  --auth-field: #fcfcfc;        /* input fill */
+  --auth-border: #e8e8e8;       /* input + social button borders */
+  --auth-card: #ffffff;         /* the card, and text on solid ink buttons */
+
+  /* Editor workspace — dark app chrome, sampled from the reference design */
+  --ed-panel: #0d0e10;          /* sidebar + inspector background */
+  --ed-canvas: #141517;         /* centre stage background */
+  --ed-field: #1c1d20;          /* search + inspector inputs */
+  --ed-raised: #232527;         /* raised chips, stepper buttons */
+  --ed-border: #212328;         /* panel dividers, input borders */
+  --ed-text: #e6e7e9;           /* primary UI text */
+  --ed-muted: #8a8c90;          /* labels, secondary text */
+  --ed-dim: #6b6c70;            /* timecode, placeholder */
+  --ed-blue: #2f6fed;           /* active tool, selection chrome */
+  --ed-hairline: rgba(255, 255, 255, 0.06); /* rings on cards, fields, thumbnails */
+  --canvas-bg: #0f1012;         /* editor board */
+  --canvas-dot: rgba(255, 255, 255, 0.38);
+  --canvas-dot-tail: rgba(255, 255, 255, 0.62);
+  --canvas-dot-head: #ffffff;
+
+  /* Footer — inverted dark surface, sampled from the reference design */
+  --footer-bg: #000000;         /* pure black canvas */
+  --footer-link: #9d9d9d;       /* column links, social labels */
+  --footer-muted: #6a6c72;      /* input placeholder */
+  --footer-field: #1d2028;      /* email input fill */
+  --footer-line: #26262b;       /* accordion dividers, input border */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-foreground: var(--foreground);
+  --color-ink-900: var(--ink-900);
+  --color-ink-700: var(--ink-700);
+  --color-ink-500: var(--ink-500);
+  --color-ink-300: var(--ink-300);
+  --color-line: var(--line);
+  --color-auth-canvas: var(--auth-canvas);
+  --color-auth-ink: var(--auth-ink);
+  --color-auth-muted: var(--auth-muted);
+  --color-auth-field: var(--auth-field);
+  --color-auth-border: var(--auth-border);
+  --color-auth-card: var(--auth-card);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-tint: var(--accent-tint);
+  --color-ink-sketch: var(--ink-sketch);
+  --color-ink-night: var(--ink-night);
+  --color-paper: var(--paper);
+  --color-paper-rule: var(--paper-rule);
+  --color-paper-warm: var(--paper-warm);
+  --color-frame: var(--frame);
+  --color-sun: var(--sun);
+  --color-cobalt: var(--cobalt);
+  --color-leaf: var(--leaf);
+  --color-pink: var(--pink);
+  --color-rose: var(--rose);
+  --color-lilac: var(--lilac);
+  --color-sage: var(--sage);
+  --color-blue: var(--blue);
+  --color-periwinkle: var(--periwinkle);
+  --color-mint: var(--mint);
+  --color-butter: var(--butter);
+  --color-sky: var(--sky);
+  --color-tint-sage: var(--tint-sage);
+  --color-tint-rose: var(--tint-rose);
+  --color-tint-sky: var(--tint-sky);
+  --color-ed-panel: var(--ed-panel);
+  --color-ed-canvas: var(--ed-canvas);
+  --color-ed-field: var(--ed-field);
+  --color-ed-raised: var(--ed-raised);
+  --color-ed-border: var(--ed-border);
+  --color-ed-text: var(--ed-text);
+  --color-ed-muted: var(--ed-muted);
+  --color-ed-dim: var(--ed-dim);
+  --color-ed-blue: var(--ed-blue);
+  --color-ed-hairline: var(--ed-hairline);
+  --color-footer-bg: var(--footer-bg);
+  --color-footer-link: var(--footer-link);
+  --color-footer-muted: var(--footer-muted);
+  --color-footer-field: var(--footer-field);
+  --color-footer-line: var(--footer-line);
+
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-newsreader);
+  --font-mono: var(--font-plex-mono);
+  --font-hand: var(--font-caveat);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ---------------------------------------------------------------------------
+   Dark theme (D79). `data-theme="dark"` on <html>, set before paint by the
+   theme script; only pages marked `[data-themed]` (home, About) respond.
+   Ink flips to light, surfaces to near-black. Orange stays the one accent.
+   Illustrated mockups mark themselves `[data-keep-light]` and keep their
+   light-mode tokens — they are artwork, not page chrome. `[data-invert]`
+   (the navbar) is always the opposite of its page: the footer's black on
+   light pages, light tokens on the dark homepage.
+--------------------------------------------------------------------------- */
+
+@custom-variant dark (&:where([data-theme="dark"] [data-themed] *, [data-theme="dark"] [data-auth] *));
+@custom-variant light (&:where([data-theme="light"] [data-app] *));
+
+[data-theme="dark"] [data-themed] {
+  --background: #050505;
+  --surface: #0d0d0e;
+  --surface-muted: #151516;
+  --foreground: #f3f2ef;
+  --ink-900: #f6f5f2;
+  --ink-700: #f1f0ec;
+  --ink-500: #a8a5a0;
+  --ink-300: #6e6b67;
+  --line: #222224;
+  --frame: #18181a;
+  /* About: dark notebook paper, chalk-white pen lines. */
+  --paper: #0b0a09;
+  --paper-rule: #191715;
+  --ink-sketch: #e7e2da;
+  color-scheme: dark;
+}
+
+/* The navbar on light pages: the footer's pure black, so the two frame the page alike. */
+[data-invert] {
+  --background: var(--footer-bg);
+  --surface: var(--footer-bg);
+  --surface-muted: #16171b;
+  --foreground: #ffffff;
+  --ink-900: #ffffff;
+  --ink-700: #ffffff;
+  --ink-500: var(--footer-link);
+  --ink-300: var(--footer-muted);
+  --line: var(--footer-line);
+  color-scheme: dark;
+}
+
+[data-theme="dark"] [data-themed] [data-keep-light],
+[data-theme="dark"] [data-themed] [data-invert] {
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-muted: #f4f2ed;
+  --foreground: #0d0b0c;
+  --ink-900: #060505;
+  --ink-700: #0f0d0e;
+  --ink-500: #35312f;
+  --ink-300: #807c78;
+  --line: #e8e6e1;
+  --frame: #ebe9e2;
+  --paper: #fbfaf7;
+  --paper-rule: #ebe7de;
+  --ink-sketch: #1c1616;
+  color-scheme: light;
+}
+
+[data-theme="dark"] body:has([data-themed]) {
+  background: #050505;
+}
+
+/* Editor and dashboard (`[data-app]`): dark by default, light when chosen. */
+[data-theme="light"] [data-app] {
+  --ed-panel: #f6f6f7;
+  --ed-canvas: #ececee;
+  --ed-field: #ffffff;
+  --ed-raised: #e6e6e9;
+  --ed-border: #e1e1e5;
+  --ed-text: #17181a;
+  --ed-muted: #66686d;
+  --ed-dim: #9a9ca1;
+  --ed-hairline: rgba(0, 0, 0, 0.08);
+  --canvas-bg: #f1f1f3;
+  --canvas-dot: rgba(0, 0, 0, 0.2);
+  --canvas-dot-tail: rgba(0, 0, 0, 0.38);
+  --canvas-dot-head: #17181a;
+  color-scheme: light;
+}
+
+[data-theme="light"] body:has([data-app]) {
+  background: #ececee;
+}
+
+/* Sign-in pages (`[data-auth]`): light by default, dark when chosen. The
+   orange promo panel keeps dark text (`[data-keep-light]`). */
+[data-theme="dark"] [data-auth] {
+  --auth-canvas: #050505;
+  --auth-card: #0d0d0e;
+  --auth-ink: #f3f2ef;
+  --auth-muted: #8d8b88;
+  --auth-field: #151516;
+  --auth-border: #262628;
+  color-scheme: dark;
+}
+
+[data-theme="dark"] [data-auth] [data-keep-light] {
+  --auth-ink: #0a0a0a;
+}
+
+[data-theme="dark"] body:has([data-auth]) {
+  background: #050505;
+}
+
+
+/* ---------------------------------------------------------------------------
+   Editor canvas dot grid + cursor comet.
+
+   Three layers share one 18px dot lattice so they register exactly:
+     .canvas-dots        the resting grid
+     .canvas-comet-tail  a wide, slow-following pool of brighter dots
+     .canvas-comet-head  a tight, fast-following core of white dots
+
+   Each comet layer is the same dot pattern revealed through a radial mask
+   centred on a CSS variable. Only the mask centre changes per frame, so the
+   browser recomposites without repainting the pattern.
+--------------------------------------------------------------------------- */
+
+.canvas-dots {
+  background-color: var(--canvas-bg);
+  background-image: radial-gradient(circle, var(--canvas-dot) 1px, transparent 1px);
+  background-size: var(--dot-gap, 18px) var(--dot-gap, 18px);
+  background-position: var(--dot-x, 0) var(--dot-y, 0);
+}
+
+.canvas-comet {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-size: var(--dot-gap, 18px) var(--dot-gap, 18px);
+  background-position: var(--dot-x, 0) var(--dot-y, 0);
+  opacity: 0;
+  transition: opacity 320ms ease-out;
+}
+
+.canvas-dots[data-pointer="inside"] .canvas-comet {
+  opacity: 1;
+}
+
+.canvas-comet-tail {
+  background-image: radial-gradient(circle, var(--canvas-dot-tail) 1px, transparent 1px);
+  -webkit-mask-image: radial-gradient(
+    circle 215px at var(--tx, -999px) var(--ty, -999px),
+    #000 0%,
+    rgba(0, 0, 0, 0.45) 45%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(
+    circle 215px at var(--tx, -999px) var(--ty, -999px),
+    #000 0%,
+    rgba(0, 0, 0, 0.45) 45%,
+    transparent 75%
+  );
+}
+
+.canvas-comet-head {
+  background-image: radial-gradient(circle, var(--canvas-dot-head) 1px, transparent 1px);
+  -webkit-mask-image: radial-gradient(
+    circle 125px at var(--hx, -999px) var(--hy, -999px),
+    #000 0%,
+    #000 38%,
+    rgba(0, 0, 0, 0.5) 58%,
+    transparent 78%
+  );
+  mask-image: radial-gradient(
+    circle 125px at var(--hx, -999px) var(--hy, -999px),
+    #000 0%,
+    #000 38%,
+    rgba(0, 0, 0, 0.5) 58%,
+    transparent 78%
+  );
+}
+
+/* No trail for anyone who has asked motion to be reduced — the highlight still
+   tracks the cursor, it just stops streaming behind it. */
+@media (prefers-reduced-motion: reduce) {
+  .canvas-comet-tail {
+    display: none;
+  }
+}
+
+
+/* ---------------------------------------------------------------------------
+   Docked prompt — travelling border light.
+
+   A conic-gradient is rotated around the pill and masked down to just the
+   border ring, so only a thin arc of it is ever visible. The gradient is
+   transparent for most of its sweep and ramps to solid black at its end, which
+   puts an opaque head at the front of the arc and a fading tail behind it.
+
+   `--border-angle` must be registered with @property or it animates as a
+   discrete string swap rather than a smooth rotation.
+--------------------------------------------------------------------------- */
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.border-chase {
+  position: relative;
+}
+
+.border-chase::before,
+[data-theme="dark"] [data-themed] .border-chase-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    transparent 0deg,
+    transparent 232deg,
+    rgba(11, 11, 11, 0.05) 268deg,
+    rgba(11, 11, 11, 0.18) 302deg,
+    rgba(11, 11, 11, 0.45) 330deg,
+    rgba(11, 11, 11, 0.8) 350deg,
+    #0b0b0b 360deg
+  );
+  /* Punch out the middle so the gradient survives only in the padding ring. */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: border-chase 3.2s linear infinite;
+}
+
+@keyframes border-chase {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .border-chase::before,
+  [data-theme="dark"] [data-themed] .border-chase-dark::before {
+    animation: none;
+  }
+}
+
+/* Dark homepage: a bright white edge, and the chasing streak turns white.
+   `.border-chase-dark` (the hero prompt box) chases in dark only. */
+[data-theme="dark"] [data-themed] .border-chase {
+  border-color: rgba(255, 255, 255, 0.32);
+}
+
+[data-theme="dark"] [data-themed] .border-chase::before,
+[data-theme="dark"] [data-themed] .border-chase-dark::before {
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    transparent 0deg,
+    transparent 232deg,
+    rgba(255, 255, 255, 0.08) 268deg,
+    rgba(255, 255, 255, 0.3) 302deg,
+    rgba(255, 255, 255, 0.65) 330deg,
+    rgba(255, 255, 255, 0.9) 350deg,
+    #ffffff 360deg
+  );
+}
+
+
+/* --------------------------------------------------------------------------
+   Showcase lightbox — the backdrop fades in as the page blurs, and the opened
+   design rises and scales up into place.
+--------------------------------------------------------------------------- */
+
+@keyframes lightbox-fade {
+  from { opacity: 0; }
+}
+
+@keyframes lightbox-rise {
+  from { opacity: 0; transform: translateY(12px) scale(0.94); }
+}
+
+.lightbox-backdrop {
+  animation: lightbox-fade 220ms ease-out;
+}
+
+.lightbox-card {
+  animation: lightbox-rise 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox-backdrop,
+  .lightbox-card {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   How it works — grain, cloud haze, and the step illustrations' motion.
+--------------------------------------------------------------------------- */
+
+/* Film grain laid over a card. Fractal noise, blended so it reads as texture
+   on the dark cards without greying them out. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+}
+
+/* The Describe card's haze: clouds only in the top-left and bottom-right. */
+.describe-clouds {
+  -webkit-mask-image:
+    radial-gradient(60% 45% at 0% 0%, #000 0%, rgba(0, 0, 0, 0.5) 45%, transparent 75%),
+    radial-gradient(55% 45% at 100% 85%, #000 0%, rgba(0, 0, 0, 0.45) 45%, transparent 75%);
+  mask-image:
+    radial-gradient(60% 45% at 0% 0%, #000 0%, rgba(0, 0, 0, 0.5) 45%, transparent 75%),
+    radial-gradient(55% 45% at 100% 85%, #000 0%, rgba(0, 0, 0, 0.45) 45%, transparent 75%);
+}
+
+/* Describe — the prompt types out (clip widens a character at a time) with
+   the caret riding its edge; the key words underline; the brief's rows and
+   the deck cover land in turn; hold; clear. 33 characters at 11.5px IBM
+   Plex Mono = 6.9px each = 227.7px. One 7s clock. */
+.hiw-type {
+  transform-box: fill-box;
+  transform-origin: left;
+  animation: hiw-type 7s infinite;
+}
+.hiw-caret {
+  animation: hiw-caret 7s infinite, hiw-blink 0.9s steps(1, end) infinite;
+}
+@keyframes hiw-type {
+  0% { transform: scaleX(0); animation-timing-function: steps(33, end); }
+  45%, 100% { transform: scaleX(1); }
+}
+@keyframes hiw-caret {
+  0% { transform: translateX(0); animation-timing-function: steps(33, end); }
+  45%, 100% { transform: translateX(227.7px); }
+}
+@keyframes hiw-blink {
+  50% { opacity: 0; }
+}
+
+.ds-mark {
+  transform-box: fill-box;
+  transform-origin: left;
+  animation: ds-mark 7s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+.ds-mark-2 { animation-name: ds-mark-2; }
+@keyframes ds-mark {
+  0%, 46% { transform: scaleX(0); opacity: 1; }
+  52%, 93% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+@keyframes ds-mark-2 {
+  0%, 49% { transform: scaleX(0); opacity: 1; }
+  55%, 93% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
+/* Rows land one after another; separate keyframes keep them on one clock. */
+/* Longhands, not the shorthand: a nameless `animation` shorthand compiles
+   to `animation: none`, which then wins over nothing and the rows just show. */
+.ds-row, .ds-reading, .ds-poster {
+  animation-duration: 7s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-iteration-count: infinite;
+}
+.ds-reading { animation-name: ds-in-0; }
+.ds-row-1 { animation-name: ds-in-1; }
+.ds-row-2 { animation-name: ds-in-2; }
+.ds-row-3 { animation-name: ds-in-3; }
+.ds-row-4 { animation-name: ds-in-4; }
+.ds-poster { animation-name: ds-in-5; }
+@keyframes ds-in-0 { 0%, 50% { opacity: 0; } 54%, 93% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes ds-in-1 { 0%, 55% { opacity: 0; transform: translateY(4px); } 60%, 93% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes ds-in-2 { 0%, 60% { opacity: 0; transform: translateY(4px); } 65%, 93% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes ds-in-3 { 0%, 65% { opacity: 0; transform: translateY(4px); } 70%, 93% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes ds-in-4 { 0%, 70% { opacity: 0; transform: translateY(4px); } 75%, 93% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes ds-in-5 { 0%, 76% { opacity: 0; transform: scale(0.94); } 82%, 93% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+.ds-poster { transform-box: fill-box; transform-origin: center; }
+
+/* Design — the picked variation steps 1 → 2 → 3 (ring moves 38px a step)
+   and the canvas cross-fades to it. One 9s clock. */
+.dv-main-1 { animation: dv-main-1 9s infinite; }
+.dv-main-2 { animation: dv-main-2 9s infinite; }
+.dv-main-3 { animation: dv-main-3 9s infinite; }
+@keyframes dv-main-1 {
+  0%, 30% { opacity: 1; }
+  34%, 96% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes dv-main-2 {
+  0%, 30% { opacity: 0; }
+  34%, 63% { opacity: 1; }
+  67%, 100% { opacity: 0; }
+}
+@keyframes dv-main-3 {
+  0%, 63% { opacity: 0; }
+  67%, 96% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.dv-ring {
+  animation: dv-ring 9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes dv-ring {
+  0%, 30% { transform: translateY(0); }
+  34%, 63% { transform: translateY(38px); }
+  67%, 96% { transform: translateY(76px); }
+  100% { transform: translateY(0); }
+}
+
+/* Download — the button's arrow bobs. */
+.hiw-bob {
+  animation: hiw-bob 1.6s ease-in-out infinite;
+}
+@keyframes hiw-bob {
+  50% { transform: translateY(4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hiw-type,
+  .hiw-caret,
+  .ds-mark,
+  .ds-row,
+  .ds-reading,
+  .ds-poster,
+  .dv-main-1,
+  .dv-main-2,
+  .dv-main-3,
+  .dv-ring,
+  .hiw-bob {
+    animation: none;
+  }
+  .hiw-caret {
+    transform: translateX(227.7px);
+  }
+  .dv-main-2,
+  .dv-main-3 {
+    opacity: 0;
+  }
+}
+
+/* Design anything — the marketing tile's carousel. Six frames on the track
+   (the first repeats last), five posts shown: each holds ~2.4s, then slides
+   one frame. The dot and the "n/5" counter run on the same 12s clock. */
+.carousel-track {
+  animation: carousel-slide 12s infinite;
+}
+@keyframes carousel-slide {
+  0%, 16% { transform: translateX(0); }
+  20%, 36% { transform: translateX(-16.6667%); }
+  40%, 56% { transform: translateX(-33.3333%); }
+  60%, 76% { transform: translateX(-50%); }
+  80%, 96% { transform: translateX(-66.6667%); }
+  100% { transform: translateX(-83.3333%); }
+}
+.carousel-track {
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* 6px dots with a 4px gap: 10px per step. */
+.carousel-dot {
+  animation: carousel-dot 12s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes carousel-dot {
+  0%, 16% { transform: translateX(0); }
+  20%, 36% { transform: translateX(10px); }
+  40%, 56% { transform: translateX(20px); }
+  60%, 76% { transform: translateX(30px); }
+  80%, 96% { transform: translateX(40px); }
+  100% { transform: translateX(0); }
+}
+
+.carousel-count::after {
+  content: "1/5";
+  animation: carousel-count 12s steps(1, end) infinite;
+}
+@keyframes carousel-count {
+  0% { content: "1/5"; }
+  18% { content: "2/5"; }
+  38% { content: "3/5"; }
+  58% { content: "4/5"; }
+  78% { content: "5/5"; }
+  98% { content: "1/5"; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track,
+  .carousel-dot,
+  .carousel-count::after {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Request loop (Design anything → Slides tile), 8s:
+   0–40%   the prompt types out, caret blinking at its edge
+   36–44%  the cursor glides in to the Generate button
+   45%     press — button dips, a ring pulses out
+   52–64%  the four pieces pop in, one after another
+   94–100% everything fades, and the loop restarts
+--------------------------------------------------------------------------- */
+
+.rq-type {
+  max-width: 0;
+  animation: rq-type 8s infinite, rq-caret 0.9s steps(1, end) infinite;
+}
+/* The prompt ("Coffee brand pitch deck", 23 characters) is set in the mono
+   face, so 23 steps of 1ch reveal exactly one whole character each — a
+   proportional font would show half-letters. Change the prompt, change both
+   numbers. */
+@keyframes rq-type {
+  0% { max-width: 0; opacity: 1; animation-timing-function: steps(23, end); }
+  40% { max-width: 23ch; }
+  93% { max-width: 23ch; opacity: 1; }
+  100% { max-width: 23ch; opacity: 0; }
+}
+@keyframes rq-caret {
+  0% { border-color: var(--ink-sketch); }
+  50% { border-color: transparent; }
+}
+
+.rq-cursor {
+  opacity: 0;
+  animation: rq-cursor 8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes rq-cursor {
+  0%, 34% { opacity: 0; transform: translate(34px, 26px); }
+  38% { opacity: 1; }
+  44% { opacity: 1; transform: translate(0, 0) scale(1); }
+  46% { transform: translate(0, 0) scale(0.82); }
+  49% { transform: translate(0, 0) scale(1); }
+  60% { opacity: 1; transform: translate(0, 0); }
+  68%, 100% { opacity: 0; transform: translate(18px, 14px); }
+}
+
+.rq-press {
+  animation: rq-press 8s infinite;
+}
+@keyframes rq-press {
+  0%, 44% { transform: scale(1); filter: none; }
+  46% { transform: scale(0.84); filter: brightness(0.85); }
+  50% { transform: scale(1.06); filter: none; }
+  54%, 100% { transform: scale(1); }
+}
+
+.rq-ring {
+  opacity: 0;
+  animation: rq-ring 8s ease-out infinite;
+}
+@keyframes rq-ring {
+  0%, 45% { opacity: 0; transform: scale(1); }
+  46% { opacity: 0.55; transform: scale(1); }
+  60%, 100% { opacity: 0; transform: scale(1.9); }
+}
+
+.rq-thumb {
+  animation: rq-thumb 8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+.rq-thumb:nth-child(2) { animation-name: rq-thumb-2; }
+.rq-thumb:nth-child(3) { animation-name: rq-thumb-3; }
+.rq-thumb:nth-child(4) { animation-name: rq-thumb-4; }
+/* Staggered by separate keyframes, not delays, so all four stay on the same
+   8s clock as the typing and the press. */
+@keyframes rq-thumb {
+  0%, 51% { opacity: 0; transform: translateY(8px) scale(0.92); }
+  56%, 93% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: none; }
+}
+@keyframes rq-thumb-2 {
+  0%, 54% { opacity: 0; transform: translateY(8px) scale(0.92); }
+  59%, 93% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: none; }
+}
+@keyframes rq-thumb-3 {
+  0%, 57% { opacity: 0; transform: translateY(8px) scale(0.92); }
+  62%, 93% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: none; }
+}
+@keyframes rq-thumb-4 {
+  0%, 60% { opacity: 0; transform: translateY(8px) scale(0.92); }
+  65%, 93% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rq-type,
+  .rq-cursor,
+  .rq-press,
+  .rq-ring,
+  .rq-thumb {
+    animation: none;
+  }
+  .rq-type {
+    max-width: none;
+    border-color: transparent;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   About — notebook paper: faint ruled lines every 32px on warm off-white.
+--------------------------------------------------------------------------- */
+.lined-paper {
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    var(--paper-rule) 31px,
+    var(--paper-rule) 32px
+  );
+}
+
+/* FAQ — the answer eases in when a question opens. */
+details[open] .faq-answer {
+  animation: faq-answer 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes faq-answer {
+  from { opacity: 0; transform: translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  details[open] .faq-answer { animation: none; }
+}
+
