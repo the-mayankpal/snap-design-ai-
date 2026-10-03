@@ -1,120 +1,244 @@
+<div align="center">
+
 # snapdesign.ai ✦
 
-> An AI-native design studio and art direction engine. Transform natural language prompts into production-ready websites, mockups, visual assets, and marketing collateral with human-level craft and zero generic AI slop.
+**The AI-native art direction engine and visual design studio.**
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.3-black?style=flat&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2-61dafb?style=flat&logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
-[![Supabase](https://img.shields.io/badge/Supabase-Auth%20%7C%20Postgres%20%7C%20Storage-3ecf8e?style=flat&logo=supabase)](https://supabase.com/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-Responses%20%26%20Images%20API-412991?style=flat&logo=openai)](https://openai.com/)
-[![Phosphor Icons](https://img.shields.io/badge/Icons-Phosphor-orange?style=flat)](https://phosphoricons.com/)
+*Transform natural prompts into production-grade websites, mockups, brand assets, and marketing collateral with human-level craft and zero generic AI slop.*
 
----
+<br />
 
-## ⚡ Overview
+[![Next.js](https://img.shields.io/badge/Next.js-16.3-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2-61dafb?style=for-the-badge&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-Auth_%7C_Postgres_%7C_Storage-3ecf8e?style=for-the-badge&logo=supabase)](https://supabase.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-Structured_Outputs_%26_Images-412991?style=for-the-badge&logo=openai)](https://openai.com/)
+[![Phosphor Icons](https://img.shields.io/badge/Icons-Phosphor-orange?style=for-the-badge)](https://phosphoricons.com/)
 
-**snapdesign.ai** is not another naive wrapper around image generation APIs. It is a full-stack design generation studio equipped with an **AI Art Director** that translates brief user ideas into rigorously structured, taste-curated, high-fidelity design specifications before rendering.
+<br />
 
-The system pairs an editorial aesthetic (Newsreader serif + Inter UI, dark/light themes, fluid glass navigation) with an interactive FigJam-style canvas editor, multi-tenant Supabase persistence, and a multi-vector anti-abuse quota system.
+[Features](#-key-capabilities) • [Visual Showcase](#-visual-showcase) • [The Art Director](#-the-art-director-engine) • [Canvas Studio](#-interactive-canvas-studio) • [Security & Privacy](#-enterprise-grade-security--anti-abuse) • [Quick Start](#-quick-start)
 
----
-
-## 💎 Key Features
-
-### 1. The Art Director Engine (`lib/ai/studio/`)
-- **Structured Design Specifications**: Instead of allowing the model to hallucinate messy, generic prompts, the Art Director (`director.ts`) generates a strict JSON design spec via OpenAI Structured Outputs.
-- **10 Core Design Families**: Categorizes requests into purpose-built structural families:
-  `screen` · `slide` · `document` · `poster` · `social` · `packaging` · `stationery` · `logo` · `illustration` · `image`
-- **37+ Curated Taste Blocks Across 5 Axes**:
-  - **Type**: *Swiss Modernist, Brutalist Mono, Editorial Serif, Clean Geometric, Lowercase Italic Serif, Wide Display Sans...*
-  - **Color**: *Warm Cream & Ink, Midnight Slate, Muted Earth, Neo-Tokyo Neon, Cherry & Cream, Butter & Chocolate...*
-  - **Layout**: *Asymmetry Grid, Bento Box, Golden Ratio Split, Editorial Multi-Column, Magazine Hero...*
-  - **Imagery**: *35mm Film Snapshot, Tactile Flat Lay, 3D Clay Render, Moody Studio Portrait...*
-  - **Graphic**: *Brutalist Tape & Stickers, Minimalist Wireframe, Retro Risograph, Holographic Foil...*
-- **Strict Anti-Slop Constitution (`constitution.ts`)**: Enforces negative constraints against generic AI tropes (random glowing geometric cubes, plastic waxy skin, clip-art badges, floating gradient orbs).
-- **Project Style Lock (`style_lock`)**: When a user marks an image note as "final" or "approved", subsequent iterations across the design automatically preserve that asset's typography, palette, and artistic direction.
-
-### 2. Interactive Canvas Editor (`/editor`)
-- **Infinite Free-Board Stage**: Pan, zoom (25% to 400%), and reposition generated assets freely on a dotted matrix canvas.
-- **Persistent Board Layout**: Card positions (`canvas_x`, `canvas_y`) and sizes (`canvas_w`) save automatically to Supabase.
-- **Focus & Selection Context**: Clicking any canvas asset focuses the conversational thread, highlights historical prompts, and targets subsequent prompts to that specific design.
-- **Asset Notes**: Attach custom tags and notes directly beneath designs on the board.
-- **Cursor Comet & Micro-interactions**: Smooth physics-based cursor trailing effect with full `prefers-reduced-motion` compliance.
-
-### 3. Bulletproof Security & Architecture
-- **Server-Only Secrets**: All prompt engineering, AI system instructions, and service-role database operations enforce `import "server-only"`. No proprietary prompts or API keys are ever bundled into client JavaScript.
-- **Private Storage with Signed URLs**: Supabase Storage bucket (`designs`) remains completely private; images are distributed strictly via time-limited 1-hour signed tokens.
-- **Postgres Row Level Security (RLS)**: Designs, messages, and generations are scoped strictly by authenticated `user_id`.
-- **HMAC-SHA256 Multi-Key Quota Protection**: Strict lifetime free-tier limits (5 images, 25 chat turns) enforced at the database level with row locking (`take_free` in Postgres). Quotas bind concurrently against normalized email, client IP (/64 subnet), and secure HTTP-only cookies without storing plaintext PII.
-- **Global Kill Switch**: Instant spend mitigation via `ALLOW_UNAUTHENTICATED_GENERATION=false`.
-- **Hardened HTTP Headers**: Comprehensive HSTS, X-Content-Type-Options: nosniff, Referrer-Policy, Cross-Origin-Opener-Policy, and restricted Content-Security-Policy.
+</div>
 
 ---
 
-## 🛠️ Tech Stack
+## 🖼️ Visual Showcase
 
-| Layer | Technology | Purpose |
-|---|---|---|
-| **Framework** | Next.js 16.3 (App Router, Turbopack) | Server Components, Route Handlers, Streaming |
-| **Language** | TypeScript 5 | Strict end-to-end type safety |
-| **Styling** | Tailwind CSS v4 + Vanilla CSS Variables | CSS `@theme inline` design system with zero runtime overhead |
-| **Icons** | Phosphor Icons (`@phosphor-icons/react`) | Single uniform icon family across all weights and viewports |
-| **Typography** | `next/font/google` (Inter + Newsreader) | High-contrast editorial display paired with crisp UI sans |
-| **Database** | Supabase Postgres | Relational data, RLS, custom atomic quota functions |
-| **Auth** | Supabase Auth (`@supabase/ssr`) | Secure cookie-based authentication sessions |
-| **Storage** | Supabase Storage | Private design buckets with signed upload & read tokens |
-| **AI Models** | OpenAI API | Structured Outputs for Art Director + OpenAI Images API |
+Generated directly with the **snapdesign.ai** Art Director pipeline. No post-processing, no third-party editing tools.
+
+<div align="center">
+  <table>
+    <tr>
+      <td width="33%" align="center">
+        <img src="public/showcase/website-atria-art-gallery.webp" alt="Atria Art Gallery Website" />
+        <br />
+        <sub><strong>Web Section</strong> · Editorial Asymmetry & Monospace</sub>
+      </td>
+      <td width="33%" align="center">
+        <img src="public/showcase/marketing-marmita-fit-meals.webp" alt="Marmita Fit Meals Marketing" />
+        <br />
+        <sub><strong>Marketing Campaign</strong> · Organic Warm Palette & Macro Subject</sub>
+      </td>
+      <td width="33%" align="center">
+        <img src="public/showcase/graphic-evolve-sticker-sheet.webp" alt="Evolve Sticker Sheet" />
+        <br />
+        <sub><strong>Graphic Design</strong> · Neo-Brutalist Sticker Sheet</sub>
+      </td>
+    </tr>
+    <tr>
+      <td width="33%" align="center">
+        <img src="public/showcase/slides-reelhouse-festival-proposal.webp" alt="Reelhouse Festival Pitch Deck" />
+        <br />
+        <sub><strong>Slide Deck</strong> · High-Contrast Cinema Pitch Deck</sub>
+      </td>
+      <td width="33%" align="center">
+        <img src="public/showcase/invoice-ashgrove-tide-vintage.webp" alt="Ashgrove Tide Vintage Document" />
+        <br />
+        <sub><strong>Document & Invoice</strong> · Archival Letterpress Texture</sub>
+      </td>
+      <td width="33%" align="center">
+        <img src="public/showcase/website-solvena-clothing.webp" alt="Solvena Fashion Store" />
+        <br />
+        <sub><strong>E-Commerce Web</strong> · Swiss Modernist Luxury Retail</sub>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 
-## 📁 Project Structure
+## ⚡ Why snapdesign.ai?
+
+Most AI image applications are simplistic prompt-in, image-out wrappers around raw diffusion APIs. They produce the recognizable **"AI Slop" look**: random glowing geometric shapes, unreadable pseudo-text, plastic human textures, and chaotic neon gradients.
+
+**snapdesign.ai** re-engineers this pipeline from the ground up:
+
+| Problem with Raw Image Prompts | The snapdesign.ai Art Director Moat |
+|---|---|
+| ❌ Hallucinated layouts with random visual noise | ✅ **10 Structural Families**: Explicit aspect ratios, information density, and layout rules. |
+| ❌ Over-saturated purple/teal gradients and plastic finish | ✅ **37+ Curated Taste Blocks**: 5 craft axes (Type, Color, Layout, Imagery, Graphic). |
+| ❌ Every prompt reinvents the entire look from scratch | ✅ **Project Style Lock (`style_lock`)**: Mark an image "final" and subsequent revisions inherit the exact palette and branding. |
+| ❌ Cluttered UI and unorganized image downloads | ✅ **FigJam-Style Canvas Studio**: Pan, zoom, arrange, annotate, and group visual designs on an infinite matrix. |
+| ❌ Public image leaks and shared storage buckets | ✅ **Air-Gapped Privacy**: 100% private storage buckets served strictly through time-limited signed URLs. |
+
+---
+
+## 🧠 The Art Director Engine
+
+The core intelligence lives in `lib/ai/studio/`. Rather than passing natural language prompts directly to an image generation model, the system executes a multi-stage compilation:
+
+```mermaid
+flowchart LR
+    A["Raw Prompt"] --> B["Art Director (director.ts)"]
+    B --> C["Strict JSON Spec (spec.ts)"]
+    C --> D["Taste Blocks (taste.ts)"]
+    C --> E["Asset Families (families.ts)"]
+    D --> F["Prompt Compiler (compiler.ts)"]
+    E --> F
+    G["Anti-Slop Constitution"] --> F
+    F --> H["8-Slot Structured Prompt"]
+    H --> I["OpenAI Images API (render.ts)"]
+    I --> J["Private Storage + Signed Delivery"]
+    J --> K["Canvas Stage Placement"]
+```
+
+### 1. The 5 Craft Axes (`taste.ts`)
+The Art Director selects human-curated design blocks across five independent aesthetic dimensions:
+- **Type**: *Swiss Modernist, Brutalist Mono, Editorial Serif, Clean Geometric, Lowercase Italic Serif, Wide Display Sans...*
+- **Color**: *Warm Cream & Ink, Midnight Slate, Muted Earth, Neo-Tokyo Neon, Cherry & Cream, Butter & Chocolate...*
+- **Layout**: *Asymmetry Grid, Bento Box, Golden Ratio Split, Editorial Multi-Column, Magazine Hero...*
+- **Imagery**: *35mm Film Snapshot, Tactile Flat Lay, 3D Clay Render, Moody Studio Portrait...*
+- **Graphic**: *Brutalist Tape & Stickers, Minimalist Wireframe, Retro Risograph, Holographic Foil...*
+
+### 2. The 10 Structural Families (`families.ts`)
+Designs are strictly structured according to how humans consume the format:
+`screen` (Web & Mobile) · `slide` (Presentations) · `document` (Invoices & Briefs) · `poster` (Editorial) · `social` (Campaigns) · `packaging` (Labels & Boxes) · `stationery` (Cards & Print) · `logo` (Marks & Vector Lockups) · `illustration` · `image`
+
+### 3. The 8-Slot Prompt Compiler (`compiler.ts`)
+Specifications are compiled into an 8-slot prompt structure with strict word budgets:
+1. **Concept**: Core creative thesis (under 18 words).
+2. **Signature Move**: One unmistakable design feature that commands attention.
+3. **Typography**: Prescribed headline font classification, tracking, weight, and hierarchy.
+4. **Layout**: Spatial distribution, whitespace tension, and visual hierarchy.
+5. **Color & Palette**: Dominant ground, ink tone, and controlled accent placement.
+6. **Subject & Imagery**: Concrete physical subjects, photographic lens, and lighting.
+7. **Graphic Elements**: Intentional structural accents (hairlines, badges, minimal rules).
+8. **Negative Constraints (The Anti-Slop Filter)**: Strict bans against floating geometric cubes, artificial lens flares, generic clip-art, waxy skin, and meaningless squiggles.
+
+---
+
+## 🎨 Interactive Canvas Studio
+
+The workspace (`/editor`) gives designers an expansive, distraction-free environment:
+
+- **Infinite Matrix Canvas**: Fluid pan, zoom (25% to 400%), pinch gestures, and selection handles.
+- **Persistent Spatial Memory**: Card positions (`canvas_x`, `canvas_y`) and sizes (`canvas_w`) are saved to PostgreSQL on drop.
+- **Context-Aware Iterations**: Selecting any image on the canvas automatically attaches it as the focal reference for your next instruction.
+- **Inline Canvas Notes**: Write notes directly beneath boards (e.g. `"Homepage v2"`, `"Approved Final"`). Labeling an asset `"final"` triggers an atomic `style_lock` update for the entire project.
+- **Hardware-Accelerated Cursor Comet**: Micro-interaction that brightens canvas grid dots beneath the cursor with smooth motion physics (fully disabled when `prefers-reduced-motion` is active).
+
+---
+
+## 🛡️ Enterprise-Grade Security & Anti-Abuse
+
+Built to withstand production workloads with zero data leakage:
+
+- **Server-Only Isolation (`import "server-only"`)**: Every module in `lib/` enforces server-only execution. Proprietary prompts, OpenAI API keys, and Supabase service-role credentials can never be imported into client bundles.
+- **Private Buckets & Signed URLs**: Storage bucket `designs` is private. Assets are served strictly through 1-hour signed tokens. Uploads go through signed pre-allocated slots with strict MIME validation (`PNG`, `JPG`, `WebP`, `GIF`) and 10 MB caps.
+- **Row Level Security (RLS)**: Public tables enforce RLS with zero public access policies. All queries are executed server-side and strictly scoped to authenticated `user_id`.
+- **HMAC-SHA256 Anti-Abuse Quota (`lib/quota.ts`)**:
+  - Free tier: 5 images, 25 chat turns per lifetime.
+  - Quotas lock atomically in PostgreSQL (`take_free`).
+  - Identifiers are irreversibly hashed using HMAC-SHA256 with `QUOTA_SECRET` across normalized email, IP subnet (`/64`), and HTTP-only cookies. No plaintext IP or email PII is stored.
+- **Hardened HTTP Headers (`next.config.ts`)**:
+  - HSTS (`max-age=63072000; includeSubDomains`)
+  - Framing restriction: `frame-ancestors 'none'; X-Frame-Options: DENY`
+  - CSP baseline: `base-uri 'self'; form-action 'self'; object-src 'none'`
+  - MIME protection: `X-Content-Type-Options: nosniff`
+  - Referrer security: `Referrer-Policy: strict-origin-when-cross-origin`
+  - Origin isolation: `Cross-Origin-Opener-Policy: same-origin`
+  - Fingerprint elimination: `poweredByHeader: false`
+- **Owner Admin Portal (`/admin`)**:
+  - Guarded strictly by `ADMIN_EMAILS`.
+  - Non-admin visitors receive an opaque HTTP 404 (`notFound()`), concealing the portal's existence.
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Next.js 16 (App Router)                         │
+├──────────────────────────────────┬─────────────────────────────────────┤
+│             Frontend             │               Backend               │
+│   React 19 + Tailwind CSS v4     │   Server Components + Route Handlers │
+│   Newsreader + Inter Typography  │   import "server-only" Execution    │
+│   Phosphor Icons (Uniform UI)    │   OpenAI Responses (Art Director)   │
+│   FigJam-Style Canvas Stage      │   OpenAI Images API (Rendering)     │
+└──────────────────────────────────┴─────────────────────────────────────┘
+                                   │
+                   ┌───────────────┴───────────────┐
+                   ▼                               ▼
+       ┌───────────────────────┐       ┌───────────────────────┐
+       │   Supabase Postgres   │       │   Supabase Storage    │
+       │   - User-Scoped RLS   │       │   - Private Bucket    │
+       │   - Atomic Quotas     │       │   - Signed 1hr URLs   │
+       │   - Board Coordinates │       │   - Scoped Uploads    │
+       └───────────────────────┘       └───────────────────────┘
+```
+
+---
+
+## 📁 Repository Directory Structure
 
 ```
 snapdesign.ai/
 ├── app/                              # Next.js App Router
-│   ├── (marketing)/                  # Public routes (Landing, Showcase, About, Legal)
-│   ├── (app)/                        # Authenticated app shell
-│   │   ├── designs/                  # Saved designs dashboard (with pin & drag reorder)
-│   │   ├── editor/                   # Interactive FigJam-style canvas studio
-│   │   └── admin/                    # Owner analytics dashboard (gated by ADMIN_EMAILS)
-│   ├── (auth)/                       # Login & Sign-up flows
-│   ├── api/                          # Server-only API route handlers
-│   │   ├── designs/                  # Design CRUD, chat turns, canvas layout
+│   ├── (marketing)/                  # Public landing, showcase, about, legal
+│   ├── (app)/                        # Authenticated workspace
+│   │   ├── designs/                  # Saved projects dashboard (pin & drag reorder)
+│   │   ├── editor/                   # Interactive FigJam canvas stage
+│   │   └── admin/                    # Private telemetry dashboard (ADMIN_EMAILS)
+│   ├── (auth)/                       # Sign-in, registration, password recovery
+│   ├── api/                          # Server-only route handlers
+│   │   ├── designs/                  # Design CRUD, turn handlers, canvas sync
 │   │   ├── generations/              # Art director compiler & image render routes
-│   │   └── usage/                    # Free-tier quota telemetry
-│   ├── layout.tsx                    # Root layout with font optimization & theme scripts
-│   └── globals.css                   # Tailwind v4 tokens & color variables
+│   │   └── usage/                    # Quota telemetry endpoints
+│   ├── layout.tsx                    # Root layout with pre-hydration theme script
+│   └── globals.css                   # Tailwind v4 @theme inline tokens
 │
-├── components/                       # UI component library
-│   ├── auth/                         # Unified login/signup forms
-│   ├── brand/                        # Official SVG vector marks & logos
-│   ├── canvas/                       # Canvas stage, image nodes, selection handles
-│   ├── editor/                       # Chat sidebar, generator controls, inspector
-│   └── ui/                           # Modals, buttons, accordions, badges
+├── components/                       # UI Component Library
+│   ├── auth/                         # Unified authentication forms
+│   ├── brand/                        # Official SVG vectors & brand marks
+│   ├── canvas/                       # Canvas stage, zoom controls, selection nodes
+│   ├── editor/                       # Chat thread, generator inspector, resizers
+│   └── ui/                           # High-polish design elements
 │
-├── lib/                              # Server-only business logic ("server-only")
+├── lib/                              # Server-Only Core Engine ("server-only")
 │   ├── ai/
-│   │   ├── openai.ts                 # Configured OpenAI client
-│   │   └── studio/                   # Art Director engine
-│   │       ├── director.ts           # Structured Outputs classifier & spec generator
+│   │   ├── openai.ts                 # Configured OpenAI API client
+│   │   └── studio/                   # Art Director Engine
+│   │       ├── director.ts           # Structured Outputs classifier & spec maker
 │   │       ├── families.ts           # 10 core asset taxonomy definitions
 │   │       ├── taste.ts              # 37+ multi-axis aesthetic taste blocks
-│   │       ├── compiler.ts           # Prompt budget builder & anti-slop assembler
-│   │       ├── constitution.ts       # Design rules & negative constraint bounds
+│   │       ├── compiler.ts           # 8-slot anti-slop prompt assembler
+│   │       ├── constitution.ts       # Aesthetic rules & negative constraints
 │   │       └── render.ts             # OpenAI Images API bridge & error handling
-│   ├── db/                           # Postgres queries for designs, messages, generations
-│   ├── storage/                      # Signed upload slots & 1-hr read URL generators
-│   ├── supabase/                     # Service-role & browser SSR Supabase clients
+│   ├── db/                           # PostgreSQL queries (designs, messages, generations)
+│   ├── storage/                      # Signed upload slots & 1-hour read URL manager
+│   ├── supabase/                     # Service-role & browser SSR clients
 │   └── quota.ts                      # HMAC-SHA256 multi-vector anti-abuse quota engine
 │
 ├── supabase/
-│   └── migrations/                   # 11 versioned SQL schema migrations
+│   ├── migrations/                   # 11 sequential SQL schema migrations
+│   └── setup-all.sql                 # Comprehensive all-in-one setup migration
 │
-├── documentation/                    # Single source of truth (Living project memory)
-│   ├── architecture.md               # Detailed system architecture & module specs
-│   ├── decisions.md                  # Comprehensive log of architectural decisions (D1–D85)
-│   ├── features.md                   # Feature status registry (DONE / IN PROGRESS / PLANNED)
+├── documentation/                    # Living Project Memory
+│   ├── architecture.md               # Detailed system architecture specs
+│   ├── decisions.md                  # Comprehensive decision log (D1–D85)
+│   ├── features.md                   # Feature status registry
 │   └── changelog.md                  # Append-only chronological changelog
 │
 └── assets/                           # High-res design masters and vector sources
@@ -122,14 +246,14 @@ snapdesign.ai/
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- **Node.js**: `v20.x` or later
-- **npm**: `v10.x` or later
-- **Supabase Account**: A Supabase project with Postgres & Storage
-- **OpenAI API Key**: Access to OpenAI API (with image generation and Structured Outputs enabled)
+- **Node.js**: `v20.x` or higher
+- **npm**: `v10.x` or higher
+- **Supabase Account**: An active Supabase project
+- **OpenAI API Key**: Account with access to Structured Outputs and Images API
 
 ### 1. Clone & Install
 
@@ -139,19 +263,19 @@ cd snap-design-ai-
 npm install
 ```
 
-### 2. Configure Environment Variables
+### 2. Configure Environment
 
-Create a local environment file by copying `.env.example`:
+Copy the example environment configuration:
 
 ```bash
 cp .env.example .env.local
 ```
 
-Populate the required environment variables:
+Fill in your project credentials in `.env.local`:
 
 ```bash
 # -----------------------------------------------------------------------------
-# OpenAI Configuration (Server-Only)
+# OpenAI Credentials (Server-Only)
 # -----------------------------------------------------------------------------
 OPENAI_API_KEY=sk-proj-...
 OPENAI_TEXT_MODEL=gpt-4o-mini
@@ -168,74 +292,60 @@ SUPABASE_SERVICE_ROLE_KEY=eyJ...       # Server-only: bypasses RLS
 SUPABASE_STORAGE_BUCKET=designs
 
 # -----------------------------------------------------------------------------
-# Generation Controls & Site Metadata
+# Spend Safeguards & Metadata
 # -----------------------------------------------------------------------------
 ALLOW_UNAUTHENTICATED_GENERATION=true  # Set to "false" to halt all generation spend
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
 # -----------------------------------------------------------------------------
-# Anti-Abuse Quota & Administration
+# Quota & Admin Controls
 # -----------------------------------------------------------------------------
-QUOTA_SECRET=your-random-32-byte-secret-key-here
+QUOTA_SECRET=your-random-32-byte-hex-string
 QUOTA_EXEMPT_EMAILS=me@example.com
 ADMIN_EMAILS=me@example.com            # Grants access to /admin
 ```
 
-> **Security Note**: Never commit `.env.local` or expose `SUPABASE_SERVICE_ROLE_KEY` / `OPENAI_API_KEY` to client-side bundles.
+### 3. Database & Storage Initialization
 
----
+1. Open your **Supabase Dashboard** → **SQL Editor**.
+2. Run `supabase/setup-all.sql` (or run migrations `000000` through `000010` in `supabase/migrations/` sequentially).
+3. In **Storage**, verify that a private bucket named `designs` is created with:
+   - Allowed MIME types: `image/png`, `image/jpeg`, `image/webp`, `image/gif`
+   - Maximum upload size: `10MB`
 
-## 🗄️ Database & Storage Setup
-
-1. In your **Supabase Dashboard**, open the **SQL Editor**.
-2. Run the migrations located in `supabase/migrations/` in numerical sequence:
-   - `20260927000000_designs.sql` (Creates `designs`, `messages`, initial tables)
-   - `20260927000001_generations.sql` (Generations schema)
-   - `20260927000002_generation_system.sql`
-   - `20260927000003_art_director.sql`
-   - `20260927000004_message_generation.sql`
-   - `20260927000005_auth_owner.sql` (Enforces user scoping & RLS)
-   - `20261001000006_canvas_size.sql` (Canvas coordinate persistence)
-   - `20261001000007_generation_note.sql` (Asset annotations)
-   - `20261001000008_design_pin.sql` (Dashboard pin functionality)
-   - `20261001000009_design_position.sql` (Drag-and-drop dashboard reordering)
-   - `20261002000010_free_quota.sql` (Atomic HMAC quota counter function)
-3. In **Storage**, create a new private bucket named `designs` (allowed MIME types: `image/png`, `image/jpeg`, `image/webp`, `image/gif`; max size: `10MB`).
-
----
-
-## 💻 Development Commands
+### 4. Run Development Server
 
 ```bash
-# Run local development server (Turbopack)
 npm run dev
-
-# Run static analysis & ESLint
-npm run lint
-
-# Run TypeScript compilation checks
-npx tsc --noEmit
-
-# Build production bundle
-npm run build
-
-# Start production server
-npm start
 ```
+
+Visit **`http://localhost:3000`** in your browser.
 
 ---
 
-## 🛡️ Coding Standard & Rulebook
+## 📜 Development Scripts
 
-This repository adheres to a strict engineering constitution recorded in `RULEBOOK.md`:
-- **Root-Cause Only**: Symptom suppression (e.g. arbitrary `try/catch` wrapping, silencing type errors with `any` or `@ts-ignore`, or hacking around race conditions with `setTimeout`) is strictly prohibited.
-- **Locked Tech Stack**: No ad-hoc libraries or dependency creep without explicit justification.
-- **Living Documentation**: All architectural patterns and decisions are permanently documented in `/documentation`.
+| Command | Action |
+|---|---|
+| `npm run dev` | Starts local Next.js dev server with Turbopack |
+| `npm run build` | Builds optimized production bundle |
+| `npm start` | Runs the production build server |
+| `npm run lint` | Runs ESLint analysis across all files |
+| `npx tsc --noEmit` | Runs strict TypeScript type-checking |
+
+---
+
+## ⚖️ Engineering Constitution
+
+This repository is governed by the principles documented in `RULEBOOK.md`:
+1. **Root-Cause Engineering Only**: Symptom masking (e.g. `try/catch` wrappers without error remediation, silencing type-check errors with `any` or `@ts-ignore`, or dodging race conditions with `setTimeout`) is banned.
+2. **Locked Stack Discipline**: Zero unapproved package additions. Every dependency is a permanent maintenance and security obligation.
+3. **Living Documentation**: Architectural updates are logged continuously in `/documentation` on every prompt cycle.
 
 ---
 
 ## 👤 Author & Acknowledgments
 
-- **Created by**: Mayank Pal ([@the-mayankpal](https://github.com/the-mayankpal))
-- **Icons**: [Phosphor Icons](https://phosphoricons.com)
-- **Fonts**: [Newsreader](https://fonts.google.com/specimen/Newsreader) & [Inter](https://fonts.google.com/specimen/Inter) via Google Fonts
+- **Creator**: Mayank Pal ([@the-mayankpal](https://github.com/the-mayankpal))
+- **Iconography**: [Phosphor Icons](https://phosphoricons.com)
+- **Editorial Typography**: [Newsreader](https://fonts.google.com/specimen/Newsreader) & [Inter](https://fonts.google.com/specimen/Inter)
