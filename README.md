@@ -18,7 +18,7 @@
 
 <br />
 
-[Features](#-key-capabilities) • [Visual Showcase](#-visual-showcase) • [The Art Director](#-the-art-director-engine) • [Canvas Studio](#-interactive-canvas-studio) • [Security & Privacy](#-enterprise-grade-security--anti-abuse) • [Quick Start](#-quick-start)
+[Features](#-key-capabilities) • [Visual Showcase](#-visual-showcase) • [The Art Director](#-the-art-director-engine) • [Canvas Studio](#-interactive-canvas-studio) • [Security & Privacy](#-enterprise-grade-security--anti-abuse) • [Quick Start](#-quick-start) • [Deploy](#-deploy-to-vercel)
 
 </div>
 
@@ -78,10 +78,10 @@ Most AI image applications are simplistic prompt-in, image-out wrappers around r
 | Problem with Raw Image Prompts | The snapdesign.ai Art Director Moat |
 |---|---|
 | ❌ Hallucinated layouts with random visual noise | ✅ **10 Structural Families**: Explicit aspect ratios, information density, and layout rules. |
-| ❌ Over-saturated purple/teal gradients and plastic finish | ✅ **37+ Curated Taste Blocks**: 5 craft axes (Type, Color, Layout, Imagery, Graphic). |
+| ❌ Over-saturated purple/teal gradients and plastic finish | ✅ **46 Curated Taste Blocks**: 5 craft axes (Type, Color, Layout, Imagery, Graphic). |
 | ❌ Every prompt reinvents the entire look from scratch | ✅ **Project Style Lock (`style_lock`)**: Mark an image "final" and subsequent revisions inherit the exact palette and branding. |
 | ❌ Cluttered UI and unorganized image downloads | ✅ **FigJam-Style Canvas Studio**: Pan, zoom, arrange, annotate, and group visual designs on an infinite matrix. |
-| ❌ Public image leaks and shared storage buckets | ✅ **Air-Gapped Privacy**: 100% private storage buckets served strictly through time-limited signed URLs. |
+| ❌ Public image leaks and shared storage buckets | ✅ **Private by Default**: a private storage bucket; every image is served through a time-limited signed URL. |
 
 ---
 
@@ -145,7 +145,8 @@ The workspace (`/editor`) gives designers an expansive, distraction-free environ
 
 Built to withstand production workloads with zero data leakage:
 
-- **Server-Only Isolation (`import "server-only"`)**: Every module in `lib/` enforces server-only execution. Proprietary prompts, OpenAI API keys, and Supabase service-role credentials can never be imported into client bundles.
+- **Server-Only Isolation (`import "server-only"`)**: Every server module in `lib/` (AI pipeline, database, storage, quota, Supabase admin client) is marked server-only, so the build fails if one is imported into browser code. The OpenAI key and Supabase service-role key never reach the client bundle.
+- **Authenticated APIs**: Every API route verifies the signed-in user from the session JWT before touching data; the proxy only redirects. Signed-out requests get `401`.
 - **Private Buckets & Signed URLs**: Storage bucket `designs` is private. Assets are served strictly through 1-hour signed tokens. Uploads go through signed pre-allocated slots with strict MIME validation (`PNG`, `JPG`, `WebP`, `GIF`) and 10 MB caps.
 - **Row Level Security (RLS)**: Public tables enforce RLS with zero public access policies. All queries are executed server-side and strictly scoped to authenticated `user_id`.
 - **HMAC-SHA256 Anti-Abuse Quota (`lib/quota.ts`)**:
@@ -160,6 +161,8 @@ Built to withstand production workloads with zero data leakage:
   - Referrer security: `Referrer-Policy: strict-origin-when-cross-origin`
   - Origin isolation: `Cross-Origin-Opener-Policy: same-origin`
   - Fingerprint elimination: `poweredByHeader: false`
+- **Safe Sign-In Redirects (`lib/safe-next.ts`)**: `?next=` targets are resolved with the URL parser and must stay on this origin, which blocks open-redirect tricks such as `/\evil.com`.
+- **Secrets Stay Out of Git**: `.env*` is ignored except `.env.example`, which holds names only.
 - **Owner Admin Portal (`/admin`)**:
   - Guarded strictly by `ADMIN_EMAILS`.
   - Non-admin visitors receive an opaque HTTP 404 (`notFound()`), concealing the portal's existence.
@@ -210,11 +213,12 @@ snapdesign.ai/
 │   └── globals.css                   # Tailwind v4 @theme inline tokens
 │
 ├── components/                       # UI Component Library
-│   ├── auth/                         # Unified authentication forms
-│   ├── brand/                        # Official SVG vectors & brand marks
-│   ├── canvas/                       # Canvas stage, zoom controls, selection nodes
-│   ├── editor/                       # Chat thread, generator inspector, resizers
-│   └── ui/                           # High-polish design elements
+│   ├── auth/                         # Sign-in, sign-up and password forms
+│   ├── brand/                        # Wordmark & brand marks
+│   ├── designs/                      # Dashboard cards, pinning, drag reorder
+│   ├── editor/                       # Canvas stage, zoom, chat panel, generator
+│   ├── legal/                        # Terms & privacy content
+│   └── *.tsx                         # Marketing sections (hero, showcase, FAQ, footer)
 │
 ├── lib/                              # Server-Only Core Engine ("server-only")
 │   ├── ai/
@@ -222,7 +226,7 @@ snapdesign.ai/
 │   │   └── studio/                   # Art Director Engine
 │   │       ├── director.ts           # Structured Outputs classifier & spec maker
 │   │       ├── families.ts           # 10 core asset taxonomy definitions
-│   │       ├── taste.ts              # 37+ multi-axis aesthetic taste blocks
+│   │       ├── taste.ts              # 46 taste blocks across 5 craft axes
 │   │       ├── compiler.ts           # 8-slot anti-slop prompt assembler
 │   │       ├── constitution.ts       # Aesthetic rules & negative constraints
 │   │       └── render.ts             # OpenAI Images API bridge & error handling
@@ -278,10 +282,10 @@ Fill in your project credentials in `.env.local`:
 # OpenAI Credentials (Server-Only)
 # -----------------------------------------------------------------------------
 OPENAI_API_KEY=sk-proj-...
-OPENAI_TEXT_MODEL=gpt-4o-mini
-OPENAI_IMAGE_MODEL=dall-e-3
-OPENAI_TEXT_REASONING_EFFORT=low       # minimal | low | medium | high
-OPENAI_IMAGE_QUALITY=standard          # standard | hd
+OPENAI_TEXT_MODEL=<a reasoning model with Structured Outputs>
+OPENAI_IMAGE_MODEL=<an image model that supports edits>
+OPENAI_TEXT_REASONING_EFFORT=low       # optional: minimal | low | medium | high
+OPENAI_IMAGE_QUALITY=medium            # optional: low | medium | high
 
 # -----------------------------------------------------------------------------
 # Supabase Configuration
@@ -300,7 +304,7 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 # -----------------------------------------------------------------------------
 # Quota & Admin Controls
 # -----------------------------------------------------------------------------
-QUOTA_SECRET=your-random-32-byte-hex-string
+QUOTA_SECRET=your-random-32-byte-hex-string  # openssl rand -hex 32; never change once live
 QUOTA_EXEMPT_EMAILS=me@example.com
 ADMIN_EMAILS=me@example.com            # Grants access to /admin
 ```
@@ -312,6 +316,8 @@ ADMIN_EMAILS=me@example.com            # Grants access to /admin
 3. In **Storage**, verify that a private bucket named `designs` is created with:
    - Allowed MIME types: `image/png`, `image/jpeg`, `image/webp`, `image/gif`
    - Maximum upload size: `10MB`
+4. In **Authentication → Sign In / Providers**, keep **Confirm email** on: free images need a confirmed address.
+5. In **Authentication → URL Configuration**, set the Site URL to `http://localhost:3000` and add `http://localhost:3000/auth/callback` to Redirect URLs.
 
 ### 4. Run Development Server
 
@@ -320,6 +326,26 @@ npm run dev
 ```
 
 Visit **`http://localhost:3000`** in your browser.
+
+---
+
+## ▲ Deploy to Vercel
+
+1. Import the GitHub repo in Vercel (framework: Next.js, default build settings).
+2. **Project → Settings → Environment Variables**: add every variable from `.env.example`.
+   - `ALLOW_UNAUTHENTICATED_GENERATION=true`, or the chat and render routes answer `403`.
+   - `NEXT_PUBLIC_SITE_URL=https://your-domain` (no trailing slash).
+   - `QUOTA_SECRET` must match any other environment that shares the same database, or free-tier counts reset.
+3. Deploy. `NEXT_PUBLIC_*` values are baked in at build time: after changing them, **redeploy**.
+4. In **Supabase → Authentication → URL Configuration**, set the Site URL to your domain and add `https://your-domain/auth/callback` (and your `*.vercel.app` URL if you test there) to Redirect URLs.
+5. In **Supabase → Authentication → Emails**, set up custom SMTP: the built-in sender is rate-limited to a few emails an hour.
+6. Image rendering runs up to 300 s (`maxDuration` on `/api/generations/[id]/render`); keep Fluid Compute on.
+
+---
+
+## 🔒 Reporting a Security Issue
+
+Please don't open a public issue. Email **me.mayank.pal@gmail.com** with the details and steps to reproduce; you'll get a reply within a few days.
 
 ---
 

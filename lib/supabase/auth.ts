@@ -24,8 +24,11 @@ export function authConfig() {
 }
 
 export async function authClient() {
-  const { url, key } = authConfig();
+  // Cookies first: reading them is what marks a page as per-request. If the
+  // config check threw first, a page like /admin would look static and the
+  // build would try to prerender it (and fail) whenever the env is missing.
   const store = await cookies();
+  const { url, key } = authConfig();
   return createServerClient(url, key, {
     cookies: {
       getAll: () => store.getAll(),

@@ -5,6 +5,37 @@
 
 ---
 
+## 2026-10-04 (141)
+
+### Docs & security — GitHub repo check, README corrected
+- Repo `the-mayankpal/snap-design-ai-` is **public**. Scanned every commit: no real key, token or
+  admin email is tracked; the only key-shaped strings are README placeholders (`sk-proj-...`).
+  Only `.env.example` of the env files is tracked.
+- `npm audit`: 0 vulnerabilities in production dependencies; 5 high in dev tooling (`braces`,
+  via the ESLint toolchain, never shipped). Left alone: the fix is a forced breaking upgrade.
+- README fixes: 46 taste blocks (said 37+); component tree matched to real folders (no
+  `canvas/` or `ui/`); env example no longer names outdated models and uses the real image
+  quality values (`low | medium | high`); "server-only" claim made accurate; added safe-redirect
+  and authenticated-API notes, Supabase auth setup steps, a **Deploy to Vercel** section and
+  a security contact.
+
+---
+
+## 2026-10-04 (140)
+
+### Fixed — Vercel build failed prerendering /admin
+- Vercel build: `Error occurred prerendering page "/admin"` — "Sign-in isn't configured". The
+  project had no Supabase env vars on Vercel, and `authClient()` checked the config *before*
+  reading cookies. The throw came first, so Next never saw the cookies read that marks /admin as
+  per-request, treated it as static and tried to prerender it.
+- `lib/supabase/auth.ts`: `authClient()` now reads cookies first. Verified: `next build` passes
+  with the Supabase env vars blank and with them set; /admin stays `ƒ` (dynamic).
+- Still required on Vercel: every variable in `.env.example`. `NEXT_PUBLIC_*` values are baked
+  in at build time, so add them and then redeploy.
+- Checked the GitHub repo: only `.env.example` is tracked; no secret value appears in any commit.
+
+---
+
 ## 2026-10-03 (139)
 
 ### GitHub & Documentation
